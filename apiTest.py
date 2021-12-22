@@ -2,7 +2,7 @@ import vt
 from datetime import datetime, timedelta
 import time
 
-client = vt.Client("<insertAPIKeyHere")
+client = vt.Client("<insertAPIKeyHere>")
 
 urls = ['www.google.com', 'www.facebook.com', 'www.twitter.com', 'www.amazon.com']
 currentTime = datetime.now()
