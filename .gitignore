@@ -2,3 +2,6 @@ parserEnv/
 secrets.txt
 test2Pcap.pcap
 wintest.pcapng
+venv_folder/
+secrets.txt
+
