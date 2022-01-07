@@ -2,7 +2,7 @@ import vt
 from datetime import datetime, timedelta
 import time
 
-client = vt.Client("<insertAPIKeyHere>")
+client = vt.Client("<API_KEY>")
 
 urls = ['www.google.com', 'www.facebook.com', 'www.twitter.com', 'www.amazon.com']
 currentTime = datetime.now()
@@ -22,6 +22,6 @@ for url in urls:
                 time.sleep(30)
         print(analysis.stats)
     else:
-        print(url, ': Already scanned')
+        print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
 client.close()
 print('Done')
