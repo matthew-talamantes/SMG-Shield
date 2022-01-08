@@ -13,6 +13,10 @@ def getUrlDict(pcapFile: str):
                 urlDict[packet.http.host] += 1
             else:
                 urlDict[packet.http.host] = 1
+            # if packet.http.request_full_uri in urlDict:
+            #     urlDict[packet.http.request_full_uri] += 1
+            # else:
+            #     urlDict[packet.http.request_full_uri] = 1
 
     cap.close()
     return urlDict
