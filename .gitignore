@@ -2,4 +2,7 @@ parserEnv/
 secrets.txt
 venv_folder/
 secrets.txt
-
+smgparse/ 
+.vscode/settings.json
+.gitignore
+smgparse.code-workspace
