@@ -4,7 +4,7 @@ import time
 
 def apicall(vtkey, urlDict, ipList=None):
     urllist = []
-    results= {}
+    results= {'urls': {}, 'ips': {}}
     for key in urlDict.keys():
         urllist.append(key)
     
@@ -17,6 +17,7 @@ def apicall(vtkey, urlDict, ipList=None):
         url_id = vt.url_id(url)
         urlResult = client.get_object("/urls/{}", url_id)
         if urlResult.last_analysis_date <= (currentTime - timedelta(days = 7)):
+            print('Unscanned addresses found. Scanning Now...')
             analysis = client.scan_url(url)
             notCompleted = True
             while notCompleted:
@@ -27,11 +28,13 @@ def apicall(vtkey, urlDict, ipList=None):
                 else:
                     time.sleep(30)
             # results.append(analysis.stats)
-            print(analysis.stats)
+            results['urls'][url] = analysis.stats
         else:
-            print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
+            # print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
+            results['urls'][url] = urlResult.last_analysis_stats 
     client.close()
-    print('Done')
+    
+    return results
 
 #urldict = {'ocsp.digicert.com': 17, 'www.amazon.com': 1, 'ocsp.sca1b.amazontrust.com': 7, 'ocsp.pki.goog': 11, 'ocsp.godaddy.com': 2, 'status.rapidssl.com': 1, 'ocsp.sectigo.com': 2, 'status.geotrust.com': 2, 'ocsp.globalsign.com': 1}
 

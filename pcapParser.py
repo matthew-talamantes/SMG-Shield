@@ -66,6 +66,6 @@ def getIpDict(pcapFile: str):
     #     streamNum += 1
 
 
-urlDict = getUrlDict('testPcap.pcap')
-ipList = getIpDict('testPcap.pcap')
+# urlDict = getUrlDict('testPcap.pcap')
+# ipList = getIpDict('testPcap.pcap')
 
