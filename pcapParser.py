@@ -9,14 +9,15 @@ def getUrlDict(pcapFile: str):
     for packet in cap:
         # Check for host so as not to double count by seeing the responses
         if hasattr(packet.http, 'host'):
-            if packet.http.host in urlDict:
-                urlDict[packet.http.host] += 1
-            else:
-                urlDict[packet.http.host] = 1
-            # if packet.http.request_full_uri in urlDict:
-            #     urlDict[packet.http.request_full_uri] += 1
+            
+            # if packet.http.host in urlDict:
+            #     urlDict[packet.http.host] += 1
             # else:
-            #     urlDict[packet.http.request_full_uri] = 1
+            #     urlDict[packet.http.host] = 1
+            if packet.http.request_full_uri in urlDict:
+                urlDict[packet.http.request_full_uri] += 1
+            else:
+                urlDict[packet.http.request_full_uri] = 1
 
     cap.close()
     return urlDict
