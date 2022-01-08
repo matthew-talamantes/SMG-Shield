@@ -4,6 +4,7 @@ import time
 
 def apicall(vtkey, urlDict, ipList=None):
     urllist = []
+    results= {}
     for key in urlDict.keys():
         urllist.append(key)
     
@@ -25,6 +26,7 @@ def apicall(vtkey, urlDict, ipList=None):
                     notCompleted = False
                 else:
                     time.sleep(30)
+            # results.append(analysis.stats)
             print(analysis.stats)
         else:
             print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')

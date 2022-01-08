@@ -6,3 +6,4 @@ smgparse/
 .vscode/settings.json
 .gitignore
 smgparse.code-workspace
+__pycache__/
