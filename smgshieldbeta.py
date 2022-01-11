@@ -18,10 +18,10 @@ def sortThreats(inputDict):
     return sortedList
 
 def printResults(type, printList):
-    print(f'{type : ^54}')
-    print("-" * 54)
+    print(f'{type : ^80}')
+    print("-" * 80)
     for item in printList:
-        print(f'{item[0]:_<27}{item[1]["malicious"]:_>27}')
+        print(f'{item[0]:_<60}{item[1]["malicious"]:_>20}')
 
 
 def main():
