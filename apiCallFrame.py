@@ -1,6 +1,17 @@
 import vt
 from datetime import datetime, timedelta
 import time
+import requests
+import json
+
+def ipApi(ip, vtKey):
+    # Returns the last_analysis_stats of the given IP.
+    # TO-DO: handle non 200 responses
+    url = f'https://www.virustotal.com/api/v3/ip_addresses/{ip}'
+    response = requests.get(url, headers={'x-apikey': vtKey})
+    resDict = json.loads(response.text)
+    resStats = resDict['data']['attributes']['last_analysis_stats']
+    return resStats
 
 def apicall(vtkey, urlDict, ipList=None):
     urllist = []
@@ -37,6 +48,12 @@ def apicall(vtkey, urlDict, ipList=None):
             else:
                 # print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
                 results['urls'][url] = urlResult.last_analysis_stats
+
+    # Get IP scores
+    for ip in ipList:
+        ipStats = ipApi(ip, vtkey)
+        results['ips'][ip] = ipStats
+        
     client.close()
     
     return results

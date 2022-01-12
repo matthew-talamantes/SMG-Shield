@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Smgshield",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "smgshieldbeta.py",
             "console": "integratedTerminal",
             "args": ["test2Pcap.pcap"]
         }

@@ -70,7 +70,7 @@ def getIpDict(pcapFile: str):
                         if packet.ip.dst not in ipList:
                             ipList.append(packet.ip.dst)
                     else:
-                        print()
+                        print('Proto not found')
                 elif packet.highest_layer == 'ARP':
                     arpCount += 1
     
