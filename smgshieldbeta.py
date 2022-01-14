@@ -4,6 +4,8 @@ from apiCallFrame import apicall
 
 from secretsParser import getKey
 
+from fileReader import write_value
+
 import sys
 
 
@@ -41,6 +43,7 @@ def main():
     #pcapParse hand to call frame
 
     apirepo= apicall(vtKey, urlrepo, ipRepo)
+    write_value(apirepo, "results.csv")
     # sortedUrls = sortThreats(apirepo['urls'])
     printResults('urls', apirepo['urls'])
     printResults('IPs', apirepo['ips'])
