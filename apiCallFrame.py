@@ -38,24 +38,25 @@ def apicall(vtkey, urlDict, ipList=None):
                 except:
                     print(f'No record for: {url} found. Continuing...')
                 
-                else:
-                    if urlResult.last_analysis_date <= (currentTime - timedelta(days = 7)):
-                        print('Unscanned addresses found. Scanning Now...')
-                        analysis = client.scan_url(url)
-                        notCompleted = True
-                        while notCompleted:
-                            analysis = client.get_object('/analyses/{}', analysis.id)
-                            if analysis.status == 'completed':
-                                print()
-                                notCompleted = False
-                            else:
-                                time.sleep(30)
-                        # results.append(analysis.stats)
-                        results['urls'][url] = analysis.stats
-                    else:
-                        # print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
-                        results['urls'][url] = urlResult.last_analysis_stats
+                
+                if urlResult.last_analysis_date <= (currentTime - timedelta(days = 7)):
+                    print('Unscanned addresses found. Scanning Now...')
+                    analysis = client.scan_url(url)
+                    notCompleted = True
+                    while notCompleted:
+                        analysis = client.get_object('/analyses/{}', analysis.id)
+                        if analysis.status == 'completed':
+                            print()
+                            notCompleted = False
+                        else:
+                            time.sleep(30)
+                    # results.append(analysis.stats)
+                    results['urls'][url] = analysis.stats
                     apiCalls += 1
+                else:
+                    # print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
+                    results['urls'][url] = urlResult.last_analysis_stats
+                apiCalls += 1
             else:
                 print('ERROR: Max API calls reached!')
         else:
