@@ -11,9 +11,15 @@ def ipApi(ip, vtKey):
     # TO-DO: handle non 200 responses
     url = f'https://www.virustotal.com/api/v3/ip_addresses/{ip}'
     response = requests.get(url, headers={'x-apikey': vtKey})
-    resDict = json.loads(response.text)
-    resStats = resDict['data']['attributes']['last_analysis_stats']
-    return resStats
+    if response.status_code == 200:
+        resDict = json.loads(response.text)
+        resStats = resDict['data']['attributes']['last_analysis_stats']
+        return resStats
+    else:
+        print('Problem with api, do you have the correct key? Using internal cache...')
+        return None
+    
+    
 
 def scanUrls(client, url, results):
     analysis = client.scan_url(url)
@@ -50,13 +56,18 @@ def apicall(vtkey, urlDict, ipList=None):
             if apiCalls <= apiMaxCalls:
                 url_id = vt.url_id(url)
                 try:
-                    urlResult = client.get_object("/urls/{}", url_id) 
-                except:
-                    print(f'No record for: {url} found. Continuing...')
+                    urlResult = client.get_object("/urls/{}", url_id)
+                except vt.error.APIError as e:
+                    if e.code == 'NotFoundError':
+                        print(f'No record for: {url} found. Continuing...')
+                        continue
+                    else:
+                        print(f'Problem connecting to the API, {e} Using internal cache...') 
+                        break
                 
                 
                 if urlResult.last_analysis_date <= (currentTime - timedelta(days = 7)):
-                    print('Unscanned addresses found. Scanning Now...')
+                    print(f'Unscanned addresses found: {url}')
                     unscannedUrls.append(url)
                 else:
                     # print(f'{url}: harmless: {urlResult.last_analysis_stats["harmless"]}, malicious: {urlResult.last_analysis_stats["malicious"]}')
@@ -66,15 +77,16 @@ def apicall(vtkey, urlDict, ipList=None):
                 print('ERROR: Max API calls reached!')
         else:
             results['urls'][url] = cachedUrls[url]
-        
-    startScan = input(f'There are {len(unscannedUrls)}, would you like to scan them? ("yes" or "no"): ')
-    if startScan.lower() == 'yes':
-        for url in unscannedUrls:
-            if apiCalls <= apiMaxCalls:
-                scanUrls(client, url, results)
-                apiCalls += 1
-            else:
-                print('ERROR: Max API calls reached!')
+    
+    if len(unscannedUrls) > 0:
+        startScan = input(f'There are {len(unscannedUrls)}, would you like to scan them? ("yes" or "no"): ')
+        if startScan.lower() == 'yes':
+            for url in unscannedUrls:
+                if apiCalls <= apiMaxCalls:
+                    scanUrls(client, url, results)
+                    apiCalls += 1
+                else:
+                    print('ERROR: Max API calls reached!')
 
     # Get IP scores
     cachedIps = read_value('results.csv', 'ips')
@@ -82,7 +94,8 @@ def apicall(vtkey, urlDict, ipList=None):
         if ip not in cachedIps:
             if apiCalls <= apiMaxCalls:
                 ipStats = ipApi(ip, vtkey)
-                results['ips'][ip] = ipStats
+                if ipStats != None:
+                    results['ips'][ip] = ipStats
                 apiCalls += 1
             else:
                 print('ERROR: Max API calls reached!')
