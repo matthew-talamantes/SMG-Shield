@@ -39,12 +39,11 @@ def main():
         urlrepo= getUrlDict(pcapfile)
         ipRepo = getIpDict(pcapfile)
         
-        print("Imported, getting to work")
+        print("Imported. Getting to work!")
     #pcapParse hand to call frame
 
     apirepo= apicall(vtKey, urlrepo, ipRepo)
     write_value(apirepo, "results.csv")
-    # sortedUrls = sortThreats(apirepo['urls'])
     printResults('urls', apirepo['urls'])
     printResults('IPs', apirepo['ips'])
 
