@@ -9,3 +9,4 @@ smgparse.code-workspace
 __pycache__/
 maccdc2012_00008.pcap*
 macc2012_08.pcap
+*.pcapng
