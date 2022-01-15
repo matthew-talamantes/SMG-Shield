@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "smgshieldbeta.py",
             "console": "integratedTerminal",
-            "args": ["macc2012_08.pcap"]
+            "args": ["http-browse101.pcapng"]
         }
     ]
 }
