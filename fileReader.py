@@ -62,4 +62,4 @@ def write_value(results_dict, file_name):
                 file.write(f"{item}, {key}, {current_time}, {stats['harmless']}, {stats['malicious']}, {stats['suspicious']}, {stats['undetected']}, {stats['timeout']}\n")
 #Close file
     file.close()
-    print("Message")
+    print("Done. Here you go:")

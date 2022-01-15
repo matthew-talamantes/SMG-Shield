@@ -69,6 +69,5 @@ def getIpDict(pcapFile: str):
                         print('Proto not found')
                 elif packet.highest_layer == 'ARP':
                     arpCount += 1
-    
     return ipList
 
