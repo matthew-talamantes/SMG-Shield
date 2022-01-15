@@ -42,7 +42,7 @@ def getIpDict(pcapFile: str):
     udpStreamList = []
     with pyshark.FileCapture(pcapFile) as cap:
         for packet in cap:
-            if hasattr(packet, 'tcp'):
+            if hasattr(packet, 'tcp') and hasattr(packet, 'ip'):
                 if regexsearch(packet.ip.dst):
                     continue
                 if packet.tcp.stream not in tcpStreamList:
