@@ -1,6 +1,25 @@
 from datetime import datetime, timedelta
 import os
 
+<<<<<<< HEAD
+#Write file function
+
+def write_value(results_dict, file_name):
+
+#Open the file that is passed through
+    current_time = datetime.now()
+    file = open(file_name, "w")
+    file.write("URL/IP, type, timestamp, harmless, malicious, suspicious, undetected, timeout\n")
+#Loop through the URLs and IPs
+    for key, value in results_dict.items():
+#For each URL/IP, we'll write to the file the URL/IP, the time and their stats. 
+        for item, stats in value.items():
+            file.write(f"{item}, {key}, {current_time}, {stats['harmless']}, {stats['malicious']}, {stats['suspicious']}, {stats['undetected']}, {stats['timeout']}\n")
+#Close file
+    file.close()
+    print("Message")
+=======
+>>>>>>> 60f9d7de4609d3f9e73d97d646687932e44961c2
 
 def get_line_list(line):
     linelist = line.split(",")
@@ -37,8 +56,9 @@ def read_value(file_name, type):
             results_dict[linelist[0]] = {"harmless": int(linelist[3]), "malicious": int(linelist[4]), "suspicious": int(linelist[5]), "undetected": int(linelist[6]), "timeout": int(linelist[7])}
     file.close()
     return results_dict
-#build a results dict
 
+<<<<<<< HEAD
+=======
 #return results dict
 
 
@@ -64,3 +84,4 @@ def write_value(results_dict, file_name):
 #Close file
     file.close()
     print("Message")
+>>>>>>> 60f9d7de4609d3f9e73d97d646687932e44961c2

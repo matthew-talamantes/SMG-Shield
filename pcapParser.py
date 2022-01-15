@@ -1,7 +1,7 @@
 import pyshark
 import re
 
-#regex pattern for private IP addresses
+#Regex pattern for private IP addresses
 def regexsearch(searchstring): 
     regex10 = re.compile("(10)(\.([2]([0-5][0-5]|[01234][6-9])|[1][0-9][0-9]|[1-9][0-9]|[0-9])){3}") 
     regex127 = re.compile("(127)(\.([2]([0-5][0-5]|[01234][6-9])|[1][0-9][0-9]|[1-9][0-9]|[0-9])){3}")
@@ -12,7 +12,7 @@ def regexsearch(searchstring):
     else:
         return False
 
-#parsing pcap to make url dictionary for api intake
+#Parsing pcap to make url dictionary for api intake
 def getUrlDict(pcapFile: str):
     # The "display_filter" parameter allows you to use the same display filters as wireshark to filter the search.
     # Pull URLs
@@ -23,11 +23,7 @@ def getUrlDict(pcapFile: str):
         if hasattr(packet.http, 'host'):
             if regexsearch(packet.http.request_full_uri):
                 continue
-            #add count of private interactions? 
-            # if packet.http.host in urlDict:
-            #     urlDict[packet.http.host] += 1
-            # else:
-            #     urlDict[packet.http.host] = 1
+
             if packet.http.request_full_uri in urlDict:
                 urlDict[packet.http.request_full_uri] += 1
             else:
@@ -36,7 +32,7 @@ def getUrlDict(pcapFile: str):
     cap.close()
     return urlDict
 
-#compile dictionary of nonprivate IP adresses for api intake
+#Compile dictionary of nonprivate IP adresses for api intake
 def getIpDict(pcapFile: str):
     # Get the dictionary with the ip addresses
     
@@ -75,21 +71,4 @@ def getIpDict(pcapFile: str):
                     arpCount += 1
     
     return ipList
-
-    # ackList = []
-    # streamNum = 0
-    # stillPackets = True
-
-    # while stillPackets and streamNum < 100:
-    #     cap = pyshark.FileCapture(pcapFile, display_filter=f'tcp.stream eq {streamNum}')
-    #     for packet in cap:
-    #         if packet.tcp.flags_syn == '1' and packet.tcp.flags_ack == '0':
-    #             print(f'{streamNum}: {packet.ip.dst}')
-        
-    #     cap.close()
-    #     streamNum += 1
-
-
-# urlDict = getUrlDict('testPcap.pcap')
-# ipList = getIpDict('testPcap.pcap')
 

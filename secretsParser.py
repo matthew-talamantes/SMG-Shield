@@ -1,3 +1,4 @@
+#used to get api key from secrets.txt
 def getKeyValue(item):
     item = item.strip()
     itemList = item.split(':')

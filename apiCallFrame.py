@@ -79,7 +79,3 @@ def apicall(vtkey, urlDict, ipList=None):
     print(f'{apiCalls} API calls made.')
     
     return results
-
-#urldict = {'ocsp.digicert.com': 17, 'www.amazon.com': 1, 'ocsp.sca1b.amazontrust.com': 7, 'ocsp.pki.goog': 11, 'ocsp.godaddy.com': 2, 'status.rapidssl.com': 1, 'ocsp.sectigo.com': 2, 'status.geotrust.com': 2, 'ocsp.globalsign.com': 1}
-
-#apicall(urldict)
