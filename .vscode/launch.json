@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "smgshieldbeta.py",
             "console": "integratedTerminal",
-            "args": ["test2Pcap.pcap"]
+            "args": ["macc2012_08.pcap"]
         }
     ]
 }

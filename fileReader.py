@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
+import os
 
+<<<<<<< HEAD
 #Write file function
 
 def write_value(results_dict, file_name):
@@ -16,6 +18,8 @@ def write_value(results_dict, file_name):
 #Close file
     file.close()
     print("Message")
+=======
+>>>>>>> 60f9d7de4609d3f9e73d97d646687932e44961c2
 
 def get_line_list(line):
     linelist = line.split(",")
@@ -23,9 +27,21 @@ def get_line_list(line):
         linelist[pos] = item.strip()
     return linelist
 
+def getDateFromStr(dateStr):
+    year = int(dateStr[0:4:])
+    month = int(dateStr[5:7:])
+    day = int(dateStr[8:10:])
+    hour = int(dateStr[11:13:])
+    minute = int(dateStr[14:16:])
+    second = int(dateStr[17:19:])
+    millisecond = int(dateStr[20::])
+    date = datetime(year, month, day, hour, minute, second, millisecond)
+    return date
+
+
 
 #read file function
-def read_value(file_name):
+def read_value(file_name, type):
     current_time = datetime.now()
 #open file
     file = open(file_name, "r")
@@ -35,9 +51,37 @@ def read_value(file_name):
 #and the count as the value
     for line in file:
         linelist = get_line_list(line)
-        timestamp = datetime(linelist[2])
-        if linelist[2] >= (current_time - timedelta(days=7)):
-            results_dict[linelist[1]] [linelist[0]] = {"harmless": int(linelist[3]), "malicious": int(linelist[4]), "suspicious": int(linelist[5]), "undetected": int(linelist[6]), "timeout": int(linelist[7])}
+        timestamp = getDateFromStr(linelist[2])
+        if timestamp >= (current_time - timedelta(days=7)) and linelist[1] == type:
+            results_dict[linelist[0]] = {"harmless": int(linelist[3]), "malicious": int(linelist[4]), "suspicious": int(linelist[5]), "undetected": int(linelist[6]), "timeout": int(linelist[7])}
     file.close()
     return results_dict
 
+<<<<<<< HEAD
+=======
+#return results dict
+
+
+#Write file function
+
+def write_value(results_dict, file_name):
+    
+    existingUrls = read_value(file_name, 'urls')
+    existingIps = read_value(file_name, 'ips')
+#Take the dict of URLs and IP's and it'll take file name
+#Open the file that is passed through
+    current_time = datetime.now()
+    fileExists = os.path.isfile(file_name)
+    file = open(file_name, "a")
+    if not fileExists:
+        file.write("URL/IP, type, timestamp, harmless, malicious, suspicious, undetected, timeout\n")
+#loop through the URLs and IPs
+    for key, value in results_dict.items():
+#For each URL/IP, we'll write to the file the URL/IP, the time and their stats. 
+        for item, stats in value.items():
+            if item not in existingUrls and item not in existingIps:
+                file.write(f"{item}, {key}, {current_time}, {stats['harmless']}, {stats['malicious']}, {stats['suspicious']}, {stats['undetected']}, {stats['timeout']}\n")
+#Close file
+    file.close()
+    print("Message")
+>>>>>>> 60f9d7de4609d3f9e73d97d646687932e44961c2
