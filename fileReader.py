@@ -58,7 +58,7 @@ def write_value(results_dict, file_name):
     for key, value in results_dict.items():
 #For each URL/IP, we'll write to the file the URL/IP, the time and their stats. 
         for item, stats in value.items():
-            if item not in existingUrls and item not in existingIps:
+            if item not in existingUrls and item not in existingIps and ',' not in item:
                 file.write(f"{item}, {key}, {current_time}, {stats['harmless']}, {stats['malicious']}, {stats['suspicious']}, {stats['undetected']}, {stats['timeout']}\n")
 #Close file
     file.close()
