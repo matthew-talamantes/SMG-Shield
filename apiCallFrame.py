@@ -79,7 +79,7 @@ def apicall(vtkey, urlDict, ipList=None):
             results['urls'][url] = cachedUrls[url]
     
     if len(unscannedUrls) > 0:
-        startScan = input(f'There are {len(unscannedUrls)}, would you like to scan them? ("yes" or "no"): ')
+        startScan = input(f'There are {len(unscannedUrls)} unscanned addresses, would you like to scan them? ("yes" or "no"): ')
         if startScan.lower() == 'yes':
             for url in unscannedUrls:
                 if apiCalls <= apiMaxCalls:
